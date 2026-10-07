@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: becd929bb11cd4642a13d0ff3059672e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4890085278179872738
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 16978
+  packageName: Orc Weapons
+  packageVersion: 2.0.0
+  assetPath: Assets/L3D_Assets/Orcs/OrcWeapons/Scene/OrcWeaponsSettings.lighting
+  uploadId: 740629

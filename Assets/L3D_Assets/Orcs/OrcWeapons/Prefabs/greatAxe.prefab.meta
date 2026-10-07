@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2b05c01f86f465540aef8d5d64b88a27
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 16978
+  packageName: Orc Weapons
+  packageVersion: 2.0.0
+  assetPath: Assets/L3D_Assets/Orcs/OrcWeapons/Prefabs/greatAxe.prefab
+  uploadId: 740629

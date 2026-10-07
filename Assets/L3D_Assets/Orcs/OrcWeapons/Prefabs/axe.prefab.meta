@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: cc134fdf0e4bd344787bc007993feac6
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 16978
+  packageName: Orc Weapons
+  packageVersion: 2.0.0
+  assetPath: Assets/L3D_Assets/Orcs/OrcWeapons/Prefabs/axe.prefab
+  uploadId: 740629
