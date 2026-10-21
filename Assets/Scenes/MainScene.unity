@@ -2150,6 +2150,7 @@ MonoBehaviour:
   enemiesText: {fileID: 783437245}
   eText: {fileID: 432301213}
   endText: {fileID: 1061513876}
+  pulseCooldown: 1
 --- !u!114 &1722015860
 MonoBehaviour:
   m_ObjectHideFlags: 0

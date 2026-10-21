@@ -1,6 +1,8 @@
+using JetBrains.Annotations;
 using System.Diagnostics;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class HUDController : MonoBehaviour
 {
@@ -8,6 +10,8 @@ public class HUDController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI enemiesText;
     [SerializeField] private TextMeshProUGUI eText;
     [SerializeField] private TextMeshProUGUI endText;
+    private float nextPulseTime;
+    public float pulseCooldown = 1f;
 
     private void Awake()
     {
@@ -23,7 +27,19 @@ public class HUDController : MonoBehaviour
         //end message stays hidden until the game ends
         if (endText != null)
             endText.gameObject.SetActive(false);
+    }
 
+    public void Update()
+    {
+        if (Keyboard.current.eKey.wasPressedThisFrame && Time.time >= nextPulseTime)
+        {
+            eText.text = "";
+            nextPulseTime = Time.time + pulseCooldown;
+        }
+        if (Time.time > nextPulseTime)
+        {
+            UpdateE();
+        }
     }
 
     public void UpdateLives(int lives)
