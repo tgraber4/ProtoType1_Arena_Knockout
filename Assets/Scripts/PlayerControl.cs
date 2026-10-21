@@ -94,7 +94,6 @@ public class KnockoutPlayerMovement : MonoBehaviour
         {
             EmitPulse();
             nextPulseTime = Time.time + pulseCooldown;
-            UnityEngine.Debug.Log("Pulse emitted at " + Time.time);
         }
     }
 
