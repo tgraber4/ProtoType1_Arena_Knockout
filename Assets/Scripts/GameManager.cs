@@ -1,53 +1,76 @@
+using System.Diagnostics;
 using UnityEngine;
-using UnityEngine.InputSystem.LowLevel;
 
 public class GameManager : MonoBehaviour
 {
+    // Singleton instance for easy global access
+    public static GameManager Instance { get; private set; }
 
-    public int targetScore = 3;
-    public int startingLife = 3;
-
-    private int currentScore = 0;
-    private int currentLife;
-
-    public bool isPlaying = true;
     public enum GameStatus
     {
         Playing,
         Won,
         Lost
     }
-    public GameStatus currentStatus;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        currentStatus = GameStatus.Playing;
-        currentLife = startingLife;
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [Header("Game Settings")]
+    [SerializeField] private int startingLives = 3;
+    [SerializeField] private int targetEnemies = 5;
 
-    public void AddScore()
+    [Header("Game State")]
+    [SerializeField] private GameStatus currentStatus = GameStatus.Playing;
+    private int currentLives;
+    private int enemiesDefeated = 0;
+
+    [Header("References")]
+    [SerializeField] private HUDController hud;
+
+    public GameStatus CurrentStatus => currentStatus;
+
+    private void Awake()
     {
-        if (currentStatus != GameStatus.Playing)
+        // Enforce Singleton pattern
+        if (Instance != null && Instance != this)
         {
+            Destroy(gameObject);
             return;
         }
+        Instance = this;
+    }
 
-        currentScore++;
+    private void Start()
+    {
+        //make sure time runs if the scene was reloaded after a game end
+        Time.timeScale = 1f;
 
-        Debug.Log(
-            "Score: " +
-            currentScore +
-            " / " +
-            targetScore
-        );
+        currentLives = startingLives;
+        currentStatus = GameStatus.Playing;
 
-        if (currentScore >= targetScore)
+        // Find HUD if not assigned in the Inspector
+        if (hud == null)
+        {
+            hud = FindFirstObjectByType<HUDController>();
+            if (hud == null)
+            {
+                UnityEngine.Debug.LogWarning("GameManager: No HUDController found in the scene.");
+            }
+        }
+
+        // Initialize HUD display
+        UpdateHUD();
+    }
+
+    public void EnemyDefeated()
+    {
+        // Do nothing if the game is already over
+        if (currentStatus != GameStatus.Playing) return;
+
+        enemiesDefeated++;
+        UpdateHUD();
+
+        UnityEngine.Debug.Log("Enemies Defeated: " + enemiesDefeated + " / " + targetEnemies);
+
+        if (enemiesDefeated >= targetEnemies)
         {
             WinGame();
         }
@@ -55,35 +78,50 @@ public class GameManager : MonoBehaviour
 
     public void LoseLife()
     {
-        if (currentStatus != GameStatus.Playing)
-        {
-            return;
-        }
+        // Do nothing if the game is already over
+        if (currentStatus != GameStatus.Playing) return;
 
-        currentLife--;
+        currentLives--;
+        UpdateHUD();
 
-        Debug.Log(
-            "Lives: " +
-            currentLife
-        );
+        UnityEngine.Debug.Log("Lives remaining: " + currentLives);
 
-        if (currentLife <= 0)
+        if (currentLives <= 0)
         {
             LoseGame();
         }
     }
 
-    void WinGame()
+    private void UpdateHUD()
     {
-        currentStatus = GameStatus.Won;
-
-        Debug.Log("YOU WIN!");
+        if (hud != null)
+        {
+            hud.UpdateLives(currentLives);
+            hud.UpdateEnemies(enemiesDefeated);
+        }
     }
 
-    void LoseGame()
+    private void WinGame()
+    {
+        currentStatus = GameStatus.Won;
+        UnityEngine.Debug.Log("YOU WIN!");
+
+        //ui first then freeze
+        if (hud != null)
+            hud.ShowEndMessage("YOU WIN");
+
+        Time.timeScale = 0f;
+    }
+
+    private void LoseGame()
     {
         currentStatus = GameStatus.Lost;
+        UnityEngine.Debug.Log("GAME OVER");
 
-        Debug.Log("GAME OVER");
+        //ui first then freeze
+        if (hud != null)
+            hud.ShowEndMessage("YOU LOSE");
+
+        Time.timeScale = 0f;
     }
 }

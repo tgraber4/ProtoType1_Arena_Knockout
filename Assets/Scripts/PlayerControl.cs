@@ -7,14 +7,14 @@ public class KnockoutPlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
     public float maxSpeed = 8f;
-    public float acceleration = 40f;     
-    public float deceleration = 50f;    
+    public float acceleration = 40f;
+    public float deceleration = 50f;
     [Range(0f, 1f)]
-    public float airControl = 0.5f;      
-    public bool cameraRelative = false;  
+    public float airControl = 0.5f;
+    public bool cameraRelative = false;
 
     [Header("Jumping")]
-    public float jumpHeight = 1.5f;     
+    public float jumpHeight = 1.5f;
     public float coyoteTime = 0.1f;      //Meep meep. Grace period to jump after walking off a ledge
     public float jumpBufferTime = 0.1f;  //Grace period to register a jump pressed just before landing
 
@@ -40,6 +40,7 @@ public class KnockoutPlayerMovement : MonoBehaviour
     private bool jumpHeld;
     private bool isGrounded;
     private float nextPulseTime;
+    private float knockbackUntil;
     private float lastGroundedTime = -999f;
     private float lastJumpPressedTime = -999f;
 
@@ -142,6 +143,10 @@ public class KnockoutPlayerMovement : MonoBehaviour
     //Horizontal movement
     void HandleHorizontalMovement()
     {
+        //skip control while stunned so the shove carries
+        if (Time.time < knockbackUntil)
+            return;
+
         Vector3 inputDir = GetWorldMoveDirection();
         Vector3 targetVelocity = inputDir * maxSpeed;
 
@@ -212,6 +217,13 @@ public class KnockoutPlayerMovement : MonoBehaviour
         {
             rb.AddForce(Physics.gravity * (lowJumpGravityMultiplier - 1f), ForceMode.Acceleration);
         }
+    }
+
+    //called by enemies when they hit the player
+    public void ReceiveKnockback(Vector3 force, float stunTime)
+    {
+        knockbackUntil = Time.time + stunTime;
+        rb.AddForce(force, ForceMode.Impulse);
     }
 
     //Knockback pulse
