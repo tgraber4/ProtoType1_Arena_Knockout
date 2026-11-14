@@ -12,11 +12,18 @@ public class KillBox : MonoBehaviour
             target.tag = "Untagged";
 
             GameManager.Instance.EnemyDefeated();
+
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlaySound(AudioManager.Instance.knockoutSound);
+
             Destroy(target);
         }
         else if (target.CompareTag("Player"))
         {
             GameManager.Instance.LoseLife();
+
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlaySound(AudioManager.Instance.loseLifeSound);
 
             if (GameManager.Instance.CurrentStatus == GameManager.GameStatus.Playing)
             {

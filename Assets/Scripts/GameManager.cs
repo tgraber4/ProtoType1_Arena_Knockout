@@ -110,6 +110,12 @@ public class GameManager : MonoBehaviour
         if (hud != null)
             hud.ShowEndMessage("YOU WIN");
 
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.StopMusic();
+            AudioManager.Instance.PlaySound(AudioManager.Instance.winSound);
+        }
+
         Time.timeScale = 0f;
     }
 
@@ -121,6 +127,12 @@ public class GameManager : MonoBehaviour
         //ui first then freeze
         if (hud != null)
             hud.ShowEndMessage("YOU LOSE");
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.StopMusic();
+            AudioManager.Instance.PlaySound(AudioManager.Instance.loseSound);
+        }
 
         Time.timeScale = 0f;
     }

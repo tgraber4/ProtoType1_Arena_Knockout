@@ -64,5 +64,8 @@ public class SpawnSystem : MonoBehaviour
 
         // Track the spawned enemy
         activeEnemies.Add(newEnemy);
+
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySound(AudioManager.Instance.spawnSound);
     }
 }

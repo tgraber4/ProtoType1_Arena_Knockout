@@ -195,6 +195,9 @@ public class KnockoutPlayerMovement : MonoBehaviour
             Vector3 v = rb.linearVelocity;
             rb.linearVelocity = new Vector3(v.x, jumpVelocity, v.z);
 
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlaySound(AudioManager.Instance.jumpSound);
+
             //Consume both so can't double trigger a jump
             lastJumpPressedTime = -999f;
             lastGroundedTime = -999f;
@@ -229,6 +232,9 @@ public class KnockoutPlayerMovement : MonoBehaviour
     //Knockback pulse
     void EmitPulse()
     {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySound(AudioManager.Instance.pulseSound);
+
         Collider[] hits = Physics.OverlapSphere(
             transform.position,
             pulseRadius,

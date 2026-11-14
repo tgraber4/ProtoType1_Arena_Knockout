@@ -69,6 +69,9 @@ public class Opponent : MonoBehaviour
         {
             winding = true;
             windupEnd = Time.time + windupTime;
+
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlaySound(AudioManager.Instance.lungeSound);
             return;
         }
 
@@ -92,5 +95,8 @@ public class Opponent : MonoBehaviour
 
         playerMove.ReceiveKnockback(push * hitForce + Vector3.up * hitUpward, hitStunTime);
         nextHitTime = Time.time + hitCooldown;
+
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySound(AudioManager.Instance.hitSound);
     }
 }
