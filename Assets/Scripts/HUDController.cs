@@ -21,8 +21,13 @@ public class HUDController : MonoBehaviour
         PositionBottomMiddle();
         PositionCenter();
         UpdateLives(0);
-        UpdateEnemies(0);
+        UpdateEnemies(0, 5);
         UpdateE();
+
+        if (livesText != null)
+            livesText.transform.SetAsLastSibling();
+        if (enemiesText != null)
+            enemiesText.transform.SetAsLastSibling();
 
         //end message stays hidden until the game ends
         if (endText != null)
@@ -45,15 +50,15 @@ public class HUDController : MonoBehaviour
     public void UpdateLives(int lives)
     {
         if (livesText != null)
-            livesText.text = "Lives: " + lives;
+            livesText.text = "" + lives;
         else
             UnityEngine.Debug.LogError("HUDController: livesText is not assigned in the Inspector.");
     }
 
-    public void UpdateEnemies(int defeated)
+    public void UpdateEnemies(int defeated, int total)
     {
         if (enemiesText != null)
-            enemiesText.text = "Enemies Defeated: " + defeated;
+            enemiesText.text = "" + defeated + "/" + total;
         else
             UnityEngine.Debug.LogError("HUDController: enemiesText is not assigned in the Inspector.");
     }
@@ -84,7 +89,7 @@ public class HUDController : MonoBehaviour
         }
     }
 
-    public void PositionTopLeft(float xOffset = 20f, float yOffset = -20f)
+    public void PositionTopLeft(float xOffset = 80f, float yOffset = -15f)
     {
         livesText.rectTransform.anchorMin = new Vector2(0, 1);
         livesText.rectTransform.anchorMax = new Vector2(0, 1);
@@ -93,11 +98,11 @@ public class HUDController : MonoBehaviour
         livesText.rectTransform.anchoredPosition = new Vector2(xOffset, yOffset);
     }
 
-    public void PositionTopRight(float xOffset = -20f, float yOffset = -20f)
+    public void PositionTopRight(float xOffset = 5f, float yOffset = -76f)
     {
-        enemiesText.rectTransform.anchorMin = new Vector2(1, 1);
-        enemiesText.rectTransform.anchorMax = new Vector2(1, 1);
-        enemiesText.rectTransform.pivot = new Vector2(1, 1);
+        enemiesText.rectTransform.anchorMin = new Vector2(0, 1);
+        enemiesText.rectTransform.anchorMax = new Vector2(0, 1);
+        enemiesText.rectTransform.pivot = new Vector2(0, 1);
 
         enemiesText.rectTransform.anchoredPosition = new Vector2(xOffset, yOffset);
     }

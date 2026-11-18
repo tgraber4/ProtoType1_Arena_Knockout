@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
         if (hud != null)
         {
             hud.UpdateLives(currentLives);
-            hud.UpdateEnemies(enemiesDefeated);
+            hud.UpdateEnemies(enemiesDefeated, targetEnemies);
         }
     }
 
